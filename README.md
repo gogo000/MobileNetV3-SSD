@@ -49,25 +49,25 @@ no discernible latency cost](https://github.com/qfgaohao/pytorch-ssd).
 本例是以蛋糕和面包为例，原因是数据量小
 所有类别总大小是561G，蛋糕和面包是3.2G
 
-python3 open_images_downloader.py --root /media/santiago/a/data/open_images --class_names "Cake,Bread" --num_workers 20
+python3 open_images_downloader.py --root data/open_images --class_names "Cake,Bread" --num_workers 20
 
 
 **训练过程**
 
 **首次训练**
 
-python3 train_ssd.py --dataset_type open_images --datasets /media/santiago/data/open_images --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 100 --base_net_lr 0.001  --batch_size 5
+python3 train_ssd.py --dataset_type open_images --datasets data/open_images --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 100 --base_net_lr 0.001  --batch_size 5
 
 
 **预加载之前训练的模型**
 
-python3 train_ssd.py --dataset_type open_images --datasets /media/santiago/data/open_images --net mb3-ssd-lite --pretrained_ssd models/mb3-ssd-lite-Epoch-99-Loss-2.5194434596402613.pth  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 200 --base_net_lr 0.001  --batch_size 5
+python3 train_ssd.py --dataset_type open_images --datasets data/open_images --net mb3-ssd-lite --pretrained_ssd models/mb3-ssd-lite-Epoch-99-Loss-3.0880880981548877.pth  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 200 --base_net_lr 0.001  --batch_size 5
 
 
 
 **测试一张图片**
 
-python run_ssd_example.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-2.5194434596402613.pth models/open-images-model-labels.txt /home/santiago/picture/test.jpg
+python3 run_ssd_example.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-3.0880880981548877.pth models/open-images-model-labels.txt data/open_images/test/1d0adfc5f12e7ac0.jpg
 
 **视频检测**
 
