@@ -5,6 +5,7 @@ import sys
 import itertools
 
 import torch
+import torch.nn as nn
 from torch.utils.data import DataLoader, ConcatDataset
 from torch.optim.lr_scheduler import CosineAnnealingLR, MultiStepLR
 
@@ -106,6 +107,7 @@ DEVICE = torch.device("cuda:0" if torch.cuda.is_available() and args.use_cuda el
 
 if args.use_cuda and torch.cuda.is_available():
     torch.backends.cudnn.benchmark = True
+    device = torch.device("cuda")
     logging.info("Use Cuda.")
 
 
@@ -201,6 +203,7 @@ if __name__ == '__main__':
 
     test_transform = TestTransform(config.image_size, config.image_mean, config.image_std)
 
+
     logging.info("Prepare training datasets.")
     datasets = []
     for dataset_path in args.datasets:
@@ -210,6 +213,7 @@ if __name__ == '__main__':
             label_file = os.path.join(args.checkpoint_folder, "voc-model-labels.txt")
             store_labels(label_file, dataset.class_names)
             num_classes = len(dataset.class_names)
+            logging.info(dataset)
         elif args.dataset_type == 'open_images':
             dataset = OpenImagesDataset(dataset_path,
                  transform=train_transform, target_transform=target_transform,
@@ -229,9 +233,10 @@ if __name__ == '__main__':
                               num_workers=args.num_workers,
                               shuffle=True,
                               drop_last=True)
+
     logging.info("Prepare Validation datasets.")
     if args.dataset_type == "voc":
-        val_dataset = VOCDataset(args.validation_dataset, transform=test_transform,
+        val_dataset = VOCDataset(dataset_path, transform=test_transform,
                                  target_transform=target_transform, is_test=True)
     elif args.dataset_type == 'open_images':
         val_dataset = OpenImagesDataset(dataset_path,
@@ -247,6 +252,9 @@ if __name__ == '__main__':
     logging.info("Build network.")
     net = create_net(num_classes)
     #print(net)
+    if torch.cuda.device_count() >= 1:
+        logging.info("num GPUs: {} ".format(torch.cuda.device_count()))
+        net = nn.DataParallel(net).to(device)
 
   
 
