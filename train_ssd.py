@@ -103,12 +103,12 @@ parser.add_argument('--checkpoint_folder', default='models/',
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 args = parser.parse_args()
-DEVICE = torch.device("cuda:0" if torch.cuda.is_available() and args.use_cuda else "cpu")
+DEVICE = torch.device("cuda" if torch.cuda.is_available() and args.use_cuda else "cpu")
 
 if args.use_cuda and torch.cuda.is_available():
     torch.backends.cudnn.benchmark = True
-    device = torch.device("cuda")
     logging.info("Use Cuda.")
+
 
 
 def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1):
@@ -252,9 +252,6 @@ if __name__ == '__main__':
     logging.info("Build network.")
     net = create_net(num_classes)
     #print(net)
-    if torch.cuda.device_count() >= 1:
-        logging.info("num GPUs: {} ".format(torch.cuda.device_count()))
-        net = nn.DataParallel(net).to(device)
 
   
 
@@ -310,7 +307,12 @@ if __name__ == '__main__':
         net.init_from_pretrained_ssd(args.pretrained_ssd)
     logging.info(f'Took {timer.end("Load Model"):.2f} seconds to load the model.')
 
-    net.to(DEVICE)
+    #net.to(DEVICE)
+    if torch.cuda.device_count() >= 1:
+        logging.info("num GPUs in system: {} ".format(torch.cuda.device_count()))
+        net = nn.DataParallel(net).to(DEVICE)
+        logging.info("Loaded the model to GPUs.")
+        net = net.module
 
     criterion = MultiboxLoss(config.priors, iou_threshold=0.5, neg_pos_ratio=3,
                              center_variance=0.1, size_variance=0.2, device=DEVICE)

@@ -56,9 +56,10 @@ python3 open_images_downloader.py --root data/open_images --class_names "Cake,Br
 
 **首次训练**
 **Open Images Dataset**
-python3 train_ssd.py --dataset_type open_images --datasets data/open_images --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 100 --base_net_lr 0.001  --batch_size 5
+python3 train_ssd.py --dataset_type open_images --datasets data/open_images --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 100 --base_net_lr 0.001  --batch_size 128
+
 **Pascal VOC**
-python3 train_ssd.py --dataset_type voc --datasets /media/bizon/DATA/Documents/Study/dataSet/voc/VOC2007 --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 100 --base_net_lr 0.001  --batch_size 5
+python3 train_ssd.py --dataset_type voc --datasets /media/bizon/DATA/Documents/Study/dataSet/voc/VOC2007 --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 100 --base_net_lr 0.001  --batch_size 128
 
 
 
