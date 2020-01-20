@@ -71,7 +71,10 @@ python3 train_ssd.py --dataset_type open_images --datasets data/open_images --ne
 
 **测试一张图片**
 
+**Open Images Dataset**
 python3 run_ssd_example.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-3.0880880981548877.pth models/open-images-model-labels.txt data/open_images/test/1d0adfc5f12e7ac0.jpg
+**Pascal VOC**
+python3 run_ssd_example.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-6.076028108596802.pth models/voc-model-labels.txt /media/bizon/DATA/Documents/Study/dataSet/voc/VOC2007/JPEGImages/000001.jpg
 
 **视频检测**
 

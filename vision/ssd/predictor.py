@@ -4,6 +4,7 @@ from ..utils import box_utils
 from .data_preprocessing import PredictionTransform
 from ..utils.misc import Timer
 
+import torchsnooper
 
 class Predictor:
     def __init__(self, net, size, mean=0.0, std=1.0, nms_method=None,
@@ -20,12 +21,11 @@ class Predictor:
             self.device = device
         else:
             self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
         self.net.to(self.device)
         self.net.eval()
 
         self.timer = Timer()
-
+    #@torchsnooper.snoop()
     def predict(self, image, top_k=-1, prob_threshold=None):
         cpu_device = torch.device("cpu")
         height, width, _ = image.shape

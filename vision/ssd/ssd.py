@@ -7,6 +7,7 @@ import torch.nn.functional as F
 from ..utils import box_utils
 from collections import namedtuple
 GraphPath = namedtuple("GraphPath", ['s0', 'name'])  #
+import torchsnooper
 
 
 class SSD(nn.Module):
@@ -34,8 +35,8 @@ class SSD(nn.Module):
             self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         if is_test:
             self.config = config
-            self.priors = config.priors.to(self.device)
-            
+            self.priors = config.priors.to(torch.device("cpu"))
+    #@torchsnooper.snoop()
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         confidences = []
         locations = []
