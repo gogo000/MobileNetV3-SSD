@@ -213,6 +213,7 @@ if __name__ == '__main__':
             label_file = os.path.join(args.checkpoint_folder, "voc-model-labels.txt")
             store_labels(label_file, dataset.class_names)
             num_classes = len(dataset.class_names)
+            logging.info("Train dataset num_classes: {}".format(num_classes))
             logging.info(dataset)
         elif args.dataset_type == 'open_images':
             dataset = OpenImagesDataset(dataset_path,
