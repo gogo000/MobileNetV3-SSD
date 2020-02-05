@@ -118,6 +118,7 @@ def train(loader, net, criterion, optimizer, device, debug_steps=100, epoch=-1):
     running_classification_loss = 0.0
     for i, data in enumerate(loader):
         images, boxes, labels = data
+        #print('train = ', images)
         images = images.to(device)
         boxes = boxes.to(device)
         labels = labels.to(device)
@@ -153,7 +154,7 @@ def test(loader, net, criterion, device):
     running_regression_loss = 0.0
     running_classification_loss = 0.0
     num = 0
-    for _, data in enumerate(loader):
+    for i, data in enumerate(loader):
         images, boxes, labels = data
         images = images.to(device)
         boxes = boxes.to(device)
@@ -168,6 +169,7 @@ def test(loader, net, criterion, device):
         running_loss += loss.item()
         running_regression_loss += regression_loss.item()
         running_classification_loss += classification_loss.item()
+    print('num = ', num)
     return running_loss / num, running_regression_loss / num, running_classification_loss / num
 
 
@@ -228,7 +230,8 @@ if __name__ == '__main__':
             raise ValueError(f"Dataset tpye {args.dataset_type} is not supported.")
         datasets.append(dataset)
     logging.info(f"Stored labels into file {label_file}.")
-    train_dataset = ConcatDataset(datasets)
+    #torch functions to load data
+    train_dataset = ConcatDataset(datasets) 
     logging.info("Train dataset size: {}".format(len(train_dataset)))
     train_loader = DataLoader(train_dataset, args.batch_size,
                               num_workers=args.num_workers,
@@ -312,7 +315,10 @@ if __name__ == '__main__':
     if torch.cuda.device_count() >= 1:
         logging.info("num GPUs in system: {} ".format(torch.cuda.device_count()))
         net = nn.DataParallel(net).to(DEVICE)
+        #net = nn.DataParallel(net, device_ids= [0, 1])
+
         logging.info("Loaded the model to GPUs.")
+        #print(net)
         net = net.module
 
     criterion = MultiboxLoss(config.priors, iou_threshold=0.5, neg_pos_ratio=3,

@@ -32,7 +32,7 @@ class SSD(nn.Module):
         if device:
             self.device = device
         else:
-            self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         if is_test:
             self.config = config
             self.priors = config.priors.to(torch.device("cpu"))
@@ -54,6 +54,7 @@ class SSD(nn.Module):
 
 
             for index_1,layer in enumerate(self.base_net[start_layer_index: end_layer_index]):
+                #x = layer(x).to(self.device)
                 x = layer(x)
             if added_layer:
                 y = added_layer(x)

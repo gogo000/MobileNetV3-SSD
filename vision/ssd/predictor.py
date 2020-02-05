@@ -38,6 +38,9 @@ class Predictor:
             print("Inference time: ", self.timer.end())
         boxes = boxes[0]
         scores = scores[0]
+        print("boxes: ", boxes)
+        print("scores: ", scores)
+        print("length of scores: ", scores.size(1))
         if not prob_threshold:
             prob_threshold = self.filter_threshold
         # this version of nms is slower on GPU, so we move data to CPU.
@@ -47,8 +50,12 @@ class Predictor:
         picked_labels = []
         for class_index in range(1, scores.size(1)):
             probs = scores[:, class_index]
+            print("prob_threshold", prob_threshold, "for class_index ",class_index)
             mask = probs > prob_threshold
+
             probs = probs[mask]
+            print("probs", probs)
+
             if probs.size(0) == 0:
                 continue
             subset_boxes = boxes[mask, :]

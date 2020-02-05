@@ -55,11 +55,19 @@ python3 open_images_downloader.py --root data/open_images --class_names "Cake,Br
 **训练过程**
 
 **首次训练**
+
+4GPU-/media/bizon/DATA/Documents/Study/mobileNetV3/MobileNetV3-Pytorch/README.md
+
 **Open Images Dataset**
 python3 train_ssd.py --dataset_type open_images --datasets data/open_images --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 100 --base_net_lr 0.001  --batch_size 128
 
 **Pascal VOC**
-rm models/mb*; python3 train_ssd.py --dataset_type voc --datasets /media/bizon/DATA/Documents/Study/dataSet/voc/VOC2007 --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 200 --base_net_lr 0.001  --batch_size 128
+rm models/mb*; 
+python3 train_ssd.py --dataset_type voc --datasets /media/bizon/DATA/Documents/Study/dataSet/voc/VOC2007 --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 200 --base_net_lr 0.001  --batch_size 128
+
+***VideoProcessing/trainingData***
+rm models/mb*;
+python3 train_ssd.py --dataset_type voc --datasets /media/bizon/DATA/Documents/Study/WHR_GitHub/VideoProcessing/trainingData --net mb3-ssd-lite  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 2000 --base_net_lr 0.001  --batch_size 64
 
 
 
@@ -67,6 +75,7 @@ rm models/mb*; python3 train_ssd.py --dataset_type voc --datasets /media/bizon/D
 
 python3 train_ssd.py --dataset_type open_images --datasets data/open_images --net mb3-ssd-lite --pretrained_ssd models/mb3-ssd-lite-Epoch-99-Loss-3.0880880981548877.pth  --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 200 --base_net_lr 0.001  --batch_size 5
 
+python3 train_ssd.py --dataset_type voc --datasets /media/bizon/DATA/Documents/Study/dataSet/voc/VOC2007 --net mb3-ssd-lite --pretrained_ssd models/mb3-ssd-lite-Epoch-999-Loss-4.7395658242075065.pth --scheduler cosine --lr 0.01 --t_max 100 --validation_epochs 5 --num_epochs 2000 --base_net_lr 0.001  --batch_size 128
 
 
 **测试一张图片**
@@ -75,10 +84,16 @@ python3 train_ssd.py --dataset_type open_images --datasets data/open_images --ne
 python3 run_ssd_example.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-3.0880880981548877.pth models/open-images-model-labels.txt data/open_images/test/1d0adfc5f12e7ac0.jpg
 **Pascal VOC**
 python3 run_ssd_example.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-6.076028108596802.pth models/voc-model-labels.txt /media/bizon/DATA/Documents/Study/dataSet/voc/VOC2007/JPEGImages/000001.jpg
+***VideoProcessing/trainingData***
+python3 run_ssd_example.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-1999-Loss-2.280820846557617.pth models/voc-model-labels.txt /media/bizon/DATA/Documents/Study/WHR_GitHub/VideoProcessing/trainingData/JPEGImages/bicycle_right_644.jpg 
+
 
 **视频检测**
 
-python3 run_ssd_live_demo.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-2.5194434596402613.pth models/open-images-model-labels.txt
+python3 run_ssd_live_demo.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-2.5194434596402613.pth models/open-images-model-labels.txt 
+
+***VideoProcessing/trainingData***
+python3 run_ssd_live_demo.py mb3-ssd-lite Trained_model/mb3-ssd-lite-Epoch-1999-Loss-2.280820846557617.pth models/voc-model-labels.txt /media/bizon/DATA/Documents/Study/WHR_GitHub/VideoProcessing/roadVideo_training/Supplementary_Movie_1_full-1239-1305.mp4
 
 
 **Cake and Bread Pretrained model**

@@ -57,6 +57,8 @@ class VOCDataset:
     def __getitem__(self, index):
         image_id = self.ids[index]
         boxes, labels, is_difficult = self._get_annotation(image_id)
+        #print (image_id)
+
         if not self.keep_difficult:
             boxes = boxes[is_difficult == 0]
             labels = labels[is_difficult == 0]
@@ -120,6 +122,7 @@ class VOCDataset:
         image_file = self.root / f"JPEGImages/{image_id}.jpg"
         image = cv2.imread(str(image_file))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        #print (image_file)
         return image
 
 
