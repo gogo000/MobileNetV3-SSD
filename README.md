@@ -95,6 +95,8 @@ python3 run_ssd_live_demo.py mb3-ssd-lite models/mb3-ssd-lite-Epoch-99-Loss-2.51
 ***VideoProcessing/trainingData***
 python3 run_ssd_live_demo.py mb3-ssd-lite Trained_model/mb3-ssd-lite-Epoch-1999-Loss-2.280820846557617.pth models/voc-model-labels.txt /media/bizon/DATA/Documents/Study/WHR_GitHub/VideoProcessing/roadVideo_training/Supplementary_Movie_1_full-1239-1305.mp4
 
+python3 processingVideo.py mb3-ssd-lite Trained_model/mb3-ssd-lite-Epoch-1999-Loss-2.4244446754455566-2020_02_05.pth models/voc-model-labels.txt /media/bizon/DATA/Documents/Study/WHR_GitHub/VideoProcessing/roadVideo_training/Supplementary_Movie_1_full-1239-1305.mp4
+
 
 **Cake and Bread Pretrained model**
 
