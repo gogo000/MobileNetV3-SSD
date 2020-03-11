@@ -1,0 +1,6 @@
+BACKGROUND
+bicycle_left
+bicycle_right
+car_side
+road_side
+road_sign
